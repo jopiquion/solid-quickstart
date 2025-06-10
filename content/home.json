@@ -1,0 +1,9 @@
+{
+  "title": "Welcome Home",
+  "slug": "home",
+  "body": "# Welcome to our site\n\nThis content is managed by Stackbit!",
+  "seo": {
+    "title": "Home - My Site",
+    "description": "Welcome to our amazing website"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "title": "About Us",
+  "slug": "about",
+  "body": "# About our website",
+  "seo": {
+    "title": "About - Our Website",
+    "description": "Learn about our website"
+  }
+}

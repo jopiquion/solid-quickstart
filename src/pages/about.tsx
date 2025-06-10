@@ -1,30 +1,25 @@
-import { createEffect, Suspense } from "solid-js";
-import AboutData from "./about.data";
+// Example: Dynamic page that reads Stackbit content
+import { createSignal, onMount } from "solid-js";
 
-export default function About() {
-  const name = AboutData();
-
-  createEffect(() => {
-    console.log(name());
+export default function DynamicPage() {
+  const [content, setContent] = createSignal<any>(null);
+  
+  onMount(async () => {
+    // Load content from your JSON files
+    const slug = window.location.pathname.slice(1) || "about";
+    try {
+      const response = await fetch(`/content/pages/${slug}.json`);
+      const data = await response.json();
+      setContent(data);
+    } catch (error) {
+      console.error('Failed to load content:', error);
+    }
   });
 
   return (
-    <section class="bg-indigo-100 text-slate-700 p-8 rounded-md">
-      <h2 class="text-2xl">About</h2>
-
-      <p class="mt-4">
-        A page all about this website. <span>We love</span>
-        <Suspense fallback={<span>...</span>}>
-          <span>&nbsp;{name()}!</span>
-        </Suspense>
-      </p>
-      <p>
-        Visit{" "}
-        <a href="https://solidjs.com" target="_blank" class="underline">
-          solidjs.com
-        </a>
-        {" "}to learn how to build Solid apps.
-      </p>
-    </section>
+    <div>
+      <h1>{content()?.title}</h1>
+      <div innerHTML={content()?.body} />
+    </div>
   );
 }
