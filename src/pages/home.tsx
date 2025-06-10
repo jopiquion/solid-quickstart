@@ -1,32 +1,25 @@
-import { createSignal } from "solid-js";
+// Example: Dynamic page that reads Stackbit content
+import { createSignal, onMount } from "solid-js";
 
-export default function Home() {
-  const [count, setCount] = createSignal(0);
+export default function DynamicPage() {
+  const [content, setContent] = createSignal<any>(null);
+  
+  onMount(async () => {
+    // Load content from your JSON files
+    const slug = window.location.pathname.slice(1) || "home";
+    try {
+      const response = await fetch(`/content/pages/${slug}.json`);
+      const data = await response.json();
+      setContent(data);
+    } catch (error) {
+      console.error('Failed to load content:', error);
+    }
+  });
 
   return (
-    <section class="bg-slate-200 text-slate-700 p-8 rounded-md">
-      <h2 class="text-2xl">Home</h2>
-      <p class="mt-4">This is the home page.</p>
-
-      <div class="flex items-center space-x-2 mt-4">
-        <button
-          type="button"
-          class="border rounded-lg px-2 border-slate-900"
-          onClick={() => setCount(count() - 1)}
-        >
-          -
-        </button>
-
-        <output class="p-10px">Count: {count()}</output>
-
-        <button
-          type="button"
-          class="border rounded-lg px-2 border-slate-900"
-          onClick={() => setCount(count() + 1)}
-        >
-          +
-        </button>
-      </div>
-    </section>
+    <div>
+      <h1>{content()?.title}</h1>
+      <div innerHTML={content()?.body} />
+    </div>
   );
 }
