@@ -7,8 +7,8 @@ export default defineStackbitConfig({
 
   contentSources: [
     new GitContentSource({
-      rootPath: __dirname,
-      contentDirs: ["content"],
+      rootPath: https://github.com/jopiquion/solid-quickstart,
+      contentDirs: ["/main"],
       models: [
         {
           name: "Page",
